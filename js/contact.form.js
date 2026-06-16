@@ -40,16 +40,6 @@
         }
     });
 
-    $("select[name=contact_subject]").on("change", function() {
-        var item = $(this);
-        var sNull = item.find("option").eq(0).val();
-        if (item.val() == sNull) {
-            item.parent().removeClass("success").addClass("error");
-        } else {
-            item.parent().removeClass("error").addClass("success");
-        }
-    });
-
     $(".cf-form-control:not('[name=contact_email],[name=contact_phone]')").on("keyup", function() {
         if ($(this).val().trim().length > 0) {
             $(this).parent().removeClass("error").addClass("success");
@@ -89,13 +79,11 @@
         var contact_name = $this.find('input[name="contact_name"]').val().trim();
         var contact_email = $this.find('input[name="contact_email"]').val().trim();
         var contact_phone = $this.find('input[name="contact_phone"]').val().trim();
-        var contact_subject = $this.find('select[name="contact_subject"]').val().trim();
         var contact_message = $this.find('textarea[name="contact_message"]').val().trim();
         var validateEmail = $this.find('input[name="contact_email"]').conformyEmailValidate();
         var validatePhone = $this.find('input[name="contact_phone"]').conformyPhoneValidate();
-        var selectedNull = $this.find('select[name="contact_subject"]').find("option").eq(0).val();
 
-        if (contact_name === '' || contact_email === '' || contact_phone === '' || contact_message === '' || textInput.val() === '' || contact_subject === selectedNull) {
+        if (contact_name === '' || contact_email === '' || contact_phone === '' || contact_message === '' || textInput.val() === '') {
             $this.find("li").addClass("error");
             if ($("#empty-form").css("display") === "none") {
                 $('#empty-form').stop().slideDown().delay(3000).slideUp();
@@ -113,12 +101,6 @@
                 $('#phone-invalid').stop().slideDown().delay(3000).slideUp();
             }
             return false;
-        } else if (contact_subject === selectedNull) {
-            $('select[name="contact_subject"]').parent().removeClass("success").addClass("error");
-            if ($('#subject-alert').css("display") === "none") {
-                $('#subject-alert').stop().slideDown().delay(3000).slideUp();
-            }
-            return false;
         } else if (!validateCaptcha()) {
             $("#textInput").parent().find("span").removeClass("success").addClass("error");
             if ($('#security-alert').css("display") === "none") {
@@ -130,7 +112,6 @@
                 contact_name: contact_name,
                 contact_email: contact_email,
                 contact_phone: contact_phone,
-                contact_subject: contact_subject,
                 contact_message: contact_message,
                 recipient_email: "mangexanywa@gmail.com" // New recipient email
             }).then(function(response) {
